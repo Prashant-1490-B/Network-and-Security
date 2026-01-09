@@ -45,3 +45,8 @@ Troubleshooting focused on DHCP lease failures and NetworkManager behavior prese
 📄 **Detailed architecture report (PDF):**  
 [Phase 1 – Lab Architecture (PDF)][phase1-architecture.pdf](https://github.com/user-attachments/files/24524691/phase1-architecture.pdf)
 
+
+## Supporting Artifacts
+
+[Virtual Machine Setup](screenshots/vb_setup.png)
+[Dual Adapter Virtual Network](screenshots/Dual_Adpater_VM.png)
