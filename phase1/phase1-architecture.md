@@ -49,5 +49,7 @@ Troubleshooting focused on DHCP lease failures and NetworkManager behavior prese
 ## Supporting Artifacts
 
 ![Virtual Machine Setup](screenshots/vb_setup.png)
+<br>
 ![Dual Adapter Virtual Network](screenshots/Dual_Adpater_VM.png)
+
 
