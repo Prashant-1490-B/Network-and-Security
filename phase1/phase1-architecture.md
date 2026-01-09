@@ -42,8 +42,8 @@ Troubleshooting focused on DHCP lease failures and NetworkManager behavior prese
 
 ## Supporting Documentation
 
-📄 **Detailed architecture report (PDF):**  
-[Phase 1 – Lab Architecture (PDF)][phase1-architecture.pdf](https://github.com/user-attachments/files/24524691/phase1-architecture.pdf)
+### 📄 **Detailed architecture report (PDF):**  
+### [Phase 1 – Lab Architecture (PDF)][phase1-architecture.pdf](https://github.com/user-attachments/files/24524691/phase1-architecture.pdf)
 
 
 ## Supporting Artifacts
@@ -53,6 +53,7 @@ Troubleshooting focused on DHCP lease failures and NetworkManager behavior prese
 <br>
 
 <img width="602" height="632" alt="Dual_Adapter_VM" src="https://github.com/user-attachments/assets/81ec3a5d-2665-4415-9f1a-fbc79552cc37" />
+
 
 
 
