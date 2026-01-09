@@ -52,7 +52,7 @@ Troubleshooting focused on DHCP lease failures and NetworkManager behavior prese
 
 <br>
 
-![Dual Adapter Virtual Network](screenshots/Dual_Adpater_VM.png)
+![Dual Adapter Virtual Network]<img width="602" height="632" alt="Dual_Adapter_VM" src="https://github.com/user-attachments/assets/81ec3a5d-2665-4415-9f1a-fbc79552cc37" />
 
 
 
