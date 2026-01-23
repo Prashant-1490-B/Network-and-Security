@@ -37,22 +37,22 @@ The goal is to prove:
 Before applying any security controls, the firewall state was verified to
 ensure no pre-existing rules were influencing traffic behavior.
 
-**Command**
+- **Command**
 
 sudo ufw status
 
-**Observed State**
+- **Observed State**
 
 Firewall status: inactive
 
-**Assessment**
+- **Assessment**
 
 Confirmed a clean baseline with no inbound filtering or legacy rules applied. This establishes an accurate reference point for all subsequent changes.
 
 Default Firewall Policy Configuration
 A restrictive default policy was applied to align with enterprise host hardening standards.
 
-**Commands**
+- **Commands**
 
 sudo ufw default deny incoming
 sudo ufw default allow outgoing
@@ -64,32 +64,41 @@ This default-deny posture mirrors standard internal security baselines.
 
 Controlled Service Exposure — HTTP
 Inbound access was explicitly limited to a single approved service.
-Commands
-Copy code
-Bash
+
+- **Commands**
+
 sudo ufw allow 80/tcp
 sudo ufw enable
-Verification
-Copy code
-Bash
+
+- **Verification**
+
 sudo ufw status verbose
-Observed State
+
+- **Observed State**
+
 Incoming: deny (default)
 Outgoing: allow (default)
 Allowed service: TCP 80 (HTTP)
-Assessment
+
+- **Assessment**
+
 The target system exposes only the approved HTTP service, maintaining a minimal and auditable attack surface.
+
 Network Validation and Packet-Level Observation
 Traffic behavior was validated from the attacker system while capturing packets on the internal interface.
-ICMP Reachability Test
-Command (Attacker)
-Copy code
-Bash
+
+- **ICMP Reachability Test**
+
+- **Command**
+
 ping 10.10.10.102
-Observed Behavior
+
+- **Observed Behavior**
+
 ICMP Echo Requests transmitted
 No Echo Replies received
 No ICMP responses observed in packet capture
+
 Assessment
 ICMP traffic was blocked due to the default inbound deny policy, confirming correct firewall enforcement.
 HTTP Connectivity Test
