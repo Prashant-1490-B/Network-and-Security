@@ -41,21 +41,27 @@ ensure no pre-existing rules were influencing traffic behavior.
 
 sudo ufw status
 
-Observed State
+**Observed State**
+
 Firewall status: inactive
-Assessment
+
+**Assessment**
+
 Confirmed a clean baseline with no inbound filtering or legacy rules applied. This establishes an accurate reference point for all subsequent changes.
+
 Default Firewall Policy Configuration
 A restrictive default policy was applied to align with enterprise host hardening standards.
-Commands
-Copy code
-Bash
+
+**Commands**
+
 sudo ufw default deny incoming
 sudo ufw default allow outgoing
-Rationale
+
 Inbound traffic must be explicitly approved
 Outbound traffic remains unrestricted for system functionality
+<br>
 This default-deny posture mirrors standard internal security baselines.
+
 Controlled Service Exposure — HTTP
 Inbound access was explicitly limited to a single approved service.
 Commands
