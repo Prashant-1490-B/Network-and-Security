@@ -99,19 +99,23 @@ ICMP Echo Requests transmitted
 No Echo Replies received
 No ICMP responses observed in packet capture
 
-Assessment
+- **Assessment**
+
 ICMP traffic was blocked due to the default inbound deny policy, confirming correct firewall enforcement.
-HTTP Connectivity Test
-Command (Attacker)
-Copy code
-Bash
+
+- **HTTP Connectivity Test**
+
 curl http://10.10.10.102
-Observed Behavior
+
+- **Observed Behavior**
+
 TCP three-way handshake completed
 HTTP response successfully returned
 Application-layer traffic visible in capture
 Assessment
+
 Firewall rules correctly permitted the approved service while maintaining restrictions on other inbound traffic.
+
 SSH Access Analysis and Troubleshooting
 Initial SSH connection attempts failed despite firewall configuration.
 Command (Attacker)
