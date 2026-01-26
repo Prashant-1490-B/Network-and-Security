@@ -1,19 +1,13 @@
-[Internal Network Visibility and Firewall Control.pdf](https://github.com/user-attachments/files/24597892/Internal.Network.Visibility.and.Firewall.Control.pdf)
-
-
 # Phase 1.3 — Firewall Control & Network Governance
 
 ## Objective
 
-Implement and validate host-based firewall controls on the internal target
-system to enforce a **controlled and auditable attack surface**. This phase
-focuses on **policy enforcement, visibility, and verification**, not on
-blocking traffic blindly.
+This phase implements and validates host-based firewall controls on an internal Linux target system to enforce a controlled, minimal, and auditable attack surface. The emphasis is on policy enforcement, visibility, and packet-level verification rather than indiscriminate traffic blocking.
 
-The goal is to prove:
-- What traffic is allowed
+The objective is to demonstrate:
+- What traffic is explicitly allowed
 - What traffic is denied
-- Why that behavior occurs at the packet level
+- Why those outcomes occur at the packet level
 
 ---
 
@@ -34,136 +28,123 @@ The goal is to prove:
 
 ## Firewall Baseline Verification
 
-Before applying any security controls, the firewall state was verified to
-ensure no pre-existing rules were influencing traffic behavior.
+Before applying any security controls, the firewall state was verified to ensure no pre-existing rules were influencing traffic behavior.
 
-- **Command**
+- Firewall status confirmed as inactive
+- No inbound or outbound filtering present
 
-sudo ufw status
+This established a clean baseline and ensured all observed behavior resulted solely from newly applied policies.
 
-- **Observed State**
+---
 
-Firewall status: inactive
+## Default Firewall Policy Configuration
 
-- **Assessment**
+A restrictive default policy was applied in alignment with enterprise host-hardening standards:
 
-Confirmed a clean baseline with no inbound filtering or legacy rules applied. This establishes an accurate reference point for all subsequent changes.
+- Inbound traffic denied by default
+- Outbound traffic allowed by default
 
-Default Firewall Policy Configuration
-A restrictive default policy was applied to align with enterprise host hardening standards.
+This posture ensures that inbound access must be explicitly approved while preserving system functionality.
 
-- **Commands**
+---
 
-sudo ufw default deny incoming
-sudo ufw default allow outgoing
-
-Inbound traffic must be explicitly approved
-Outbound traffic remains unrestricted for system functionality
-<br>
-This default-deny posture mirrors standard internal security baselines.
+## Controlled Service Exposure — HTTP
 
-Controlled Service Exposure — HTTP
-Inbound access was explicitly limited to a single approved service.
+Inbound access was explicitly limited to a single approved service:
 
-- **Commands**
+- TCP port 80 (HTTP) allowed
+- Firewall enabled after rule definition
 
-sudo ufw allow 80/tcp
-sudo ufw enable
+Firewall verification confirmed:
+- Default inbound policy: deny
+- Default outbound policy: allow
+- Only TCP port 80 permitted inbound
 
-- **Verification**
+This resulted in a minimal and auditable attack surface.
 
-sudo ufw status verbose
+---
 
-- **Observed State**
+## Network Validation and Packet-Level Observation
 
-Incoming: deny (default)
-Outgoing: allow (default)
-Allowed service: TCP 80 (HTTP)
+Traffic behavior was validated from the attacker system while capturing packets on the target’s internal interface.
 
-- **Assessment**
+### ICMP Reachability
 
-The target system exposes only the approved HTTP service, maintaining a minimal and auditable attack surface.
+- ICMP echo requests transmitted
+- No echo replies received
+- No ICMP responses observed in packet capture
 
-Network Validation and Packet-Level Observation
-Traffic behavior was validated from the attacker system while capturing packets on the internal interface.
+Assessment:  
+ICMP traffic was correctly blocked by the default inbound deny policy, confirming firewall enforcement.
 
-- **ICMP Reachability Test**
+---
 
-- **Command**
+### HTTP Connectivity
 
-ping 10.10.10.102
+- TCP three-way handshake completed successfully
+- HTTP response returned
+- Application-layer traffic visible in packet capture
 
-- **Observed Behavior**
+Assessment:  
+The firewall correctly permitted the explicitly allowed service while maintaining restrictions on all other inbound traffic.
 
-ICMP Echo Requests transmitted
-No Echo Replies received
-No ICMP responses observed in packet capture
+---
 
-- **Assessment**
+## SSH Access Analysis and Troubleshooting
 
-ICMP traffic was blocked due to the default inbound deny policy, confirming correct firewall enforcement.
+Initial SSH connection attempts failed despite no firewall rule explicitly blocking SSH.
 
-- **HTTP Connectivity Test**
+Observed behavior:
+- Connection failure
+- TCP RST packets visible in packet capture
 
-curl http://10.10.10.102
+Root Cause:  
+The SSH service was not running on the target system. The failure was service-related, not firewall-related, demonstrating the distinction between filtering and service availability.
 
-- **Observed Behavior**
+---
 
-TCP three-way handshake completed
-HTTP response successfully returned
-Application-layer traffic visible in capture
-Assessment
+## Controlled SSH Enablement (Validation Test)
 
-Firewall rules correctly permitted the approved service while maintaining restrictions on other inbound traffic.
+SSH was temporarily enabled to validate firewall behavior against an additional service.
 
-SSH Access Analysis and Troubleshooting
-Initial SSH connection attempts failed despite firewall configuration.
-Command (Attacker)
-Copy code
-Bash
-ssh user@10.10.10.102
-Observed Behavior
-Connection failure
-TCP RST packets observed
-Root Cause
-SSH service was not running on the target system
-Failure was service-related, not firewall-related
-SSH Service Enablement (Controlled Test)
-SSH was enabled temporarily to validate firewall behavior against an additional service.
-Commands (Target)
-Copy code
-Bash
-sudo systemctl start ssh
-sudo ufw allow ssh
-Observed Behavior
-Successful TCP handshake
-SSH protocol negotiation observed
-Encrypted SSH packets visible in capture
-Assessment
-Demonstrated clear distinction between:
-Firewall filtering
-Service availability
-Encrypted application-layer traffic
-SSH Exposure Rollback
+Observed behavior:
+- Successful TCP handshake
+- SSH protocol negotiation observed
+- Encrypted SSH traffic visible in packet capture
+
+Assessment:  
+This confirmed correct firewall behavior and demonstrated encrypted application-layer traffic traversal.
+
+---
+
+## SSH Exposure Rollback
+
 SSH access was revoked to restore the minimal attack surface.
-Command
-Copy code
-Bash
-sudo ufw delete allow ssh
-Observed Behavior
-Subsequent SSH attempts resulted in TCP RST packets
-No session establishment possible
-Assessment
-Confirmed clean rollback of exposure and effective firewall governance.
-Key Findings
-Default-deny inbound policy effectively restricted unsolicited traffic
-Explicit allow rules functioned as intended
-Packet captures clearly differentiated filtered ports from inactive services
-Firewall changes were observable, measurable, and reversible
-Security Outcome
+
+Observed behavior:
+- Subsequent SSH attempts resulted in TCP RST packets
+- No session establishment possible
+
+Assessment:  
+The rollback confirmed effective firewall governance and clean removal of exposure.
+
+---
+
+## Key Findings
+
+- Default-deny inbound policy effectively restricted unsolicited traffic
+- Explicit allow rules functioned as intended
+- Packet captures clearly differentiated filtered ports from inactive services
+- Firewall changes were observable, measurable, and reversible
+
+---
+
+## Security Outcome
+
 This phase successfully demonstrated:
-Host-based firewall governance
-Controlled service exposure
-Accurate packet-level validation
-Professional troubleshooting methodology
+- Host-based firewall governance
+- Controlled service exposure
+- Packet-level validation of security controls
+- Professional troubleshooting methodology
+
 The environment is now prepared for controlled vulnerable asset deployment and baseline traffic analysis in subsequent phases.
