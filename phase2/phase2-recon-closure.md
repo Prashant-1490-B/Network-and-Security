@@ -1,5 +1,3 @@
-## Phase 2.1 – Reconnaissance Closure
-
 ### Scope Validation
 All reconnaissance activities were performed strictly within the defined engagement scope.
 Testing was limited to the DVWA application exposed on TCP port 80, with no interaction outside
