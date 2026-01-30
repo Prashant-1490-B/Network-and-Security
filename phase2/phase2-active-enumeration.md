@@ -216,3 +216,8 @@ PHASE 2.2 successfully established:
 No active exploitation was performed.  
 The environment is now ready for **PHASE 2.3 — Controlled Exploitation**, where a single parameter and single impact will be validated with full evidence.
 
+## Documentation of Phase 2.2
+
+[Active Web Enumeration.pdf](https://github.com/user-attachments/files/24961175/Active.Web.Enumeration.pdf)
+
+
