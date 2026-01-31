@@ -41,40 +41,42 @@ gobuster dir \
   -t 30
 
 ---
-Observed Results (Categorized)
-2.1 Protected or Forbidden Resources (HTTP 403)
 
-/.hta
+## Observed Results (Categorized)
 
-/.htaccess
+*2.1 Protected or Forbidden Resources (HTTP 403)*
 
-/.htpasswd
+`/.hta`
 
-Interpretation:
+`/.htaccess`
+
+`/.htpasswd`
+
+*Interpretation:*
 These files exist but are access-restricted by the web server. This behavior is expected and not considered a security finding.
 
-2.2 Accessible Resources (HTTP 200)
+z2.2 Accessible Resources (HTTP 200)*
 
-/.git/HEAD
+`/.git/HEAD`
 
-/favicon.ico
+`/favicon.ico`
 
-/robots.txt
+`/robots.txt`
 
-/php.ini
+`/php.ini`
 
-Interpretation:
+*Interpretation:*
 These endpoints are reachable and represent potential configuration or metadata exposure surfaces. No content analysis or exploitation was performed during this phase.
 
-2.3 Redirected Directories (HTTP 301 / 302)
+*2.3 Redirected Directories (HTTP 301 / 302)*
 
-/config/
+`/config/`
 
-/database/
+`/database/`
 
-/docs/
+`/docs/`
 
-/external/
+`/external/`
 
 /tests/
 
