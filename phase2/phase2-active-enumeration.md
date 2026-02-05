@@ -1,4 +1,4 @@
-# PHASE 2.2 — Active Enumeration (Controlled, Intentional)
+# PHASE 2.2 — Active Enumeration
 
 ## Engagement Context
 
@@ -47,22 +47,17 @@ gobuster dir \
 *2.1 Protected or Forbidden Resources (HTTP 403)*
 
 `/.hta`
-
 `/.htaccess`
-
 `/.htpasswd`
 
 *Interpretation:*
 These files exist but are access-restricted by the web server. This behavior is expected and not considered a security finding.
 
-z2.2 Accessible Resources (HTTP 200)*
+*2.2 Accessible Resources (HTTP 200)*
 
 `/.git/HEAD`
-
 `/favicon.ico`
-
 `/robots.txt`
-
 `/php.ini`
 
 *Interpretation:*
@@ -71,11 +66,8 @@ These endpoints are reachable and represent potential configuration or metadata 
 *2.3 Redirected Directories (HTTP 301 / 302)*
 
 `/config/`
-
 `/database/`
-
 `/docs/`
-
 `/external/`
 
 /tests/
@@ -85,7 +77,7 @@ These directories exist within the application structure but are redirected, ind
 
 ---
 
-# ✅ PART 2 — Application & Parameter Enumeration (Reflected + Stored XSS)
+# PART 2 — Application & Parameter Enumeration (Reflected + Stored XSS)
 
 
 ## Application-Level Enumeration (Authenticated)
