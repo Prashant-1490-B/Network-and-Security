@@ -367,3 +367,10 @@ Multiple payloads (`whoami`, `ls`, and `uname -a`) executed successfully, confir
 This vulnerability can lead to full server compromise if exploited in a production environment and therefore should be considered **Critical**.
 
 ---
+
+
+# Artifacts
+
+<img width="1694" height="787" alt="command_i_3" src="https://github.com/user-attachments/assets/5bd06409-ddf9-477b-94af-66fe53cbd2d7" />
+<img width="1703" height="779" alt="command_i_2" src="https://github.com/user-attachments/assets/082ff692-b764-44ca-9b7d-ad3e66c9463f" />
+<img width="1716" height="813" alt="command_i" src="https://github.com/user-attachments/assets/53aa0b12-78f6-456d-9751-494e0bf10c00" />
