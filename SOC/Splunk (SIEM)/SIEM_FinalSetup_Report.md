@@ -16,9 +16,9 @@
 
 ---Continue of SIEM_Presetup_Report.md
 
-## 4. Phase 2 – Ingestion Port Activation & Socket Architecture
+## 1. Phase 2 – Ingestion Port Activation & Socket Architecture
 
-### 4.1 Test Description
+### 1.1 Test Description
 
 With the network layer aligned, a connection probe was executed from the Windows endpoint to validate TCP port `9997` (Splunk-to-Splunk ingestion listener).
 
@@ -26,7 +26,7 @@ With the network layer aligned, a connection probe was executed from the Windows
 Test-NetConnection -ComputerName 192.168.1.150 -Port 9997
 ```
 
-### 4.2 Observations
+### 1.2 Observations
 
 | Result | Detail |
 |---|---|
@@ -34,7 +34,7 @@ Test-NetConnection -ComputerName 192.168.1.150 -Port 9997
 | **Socket Audit** | `sudo ss -tulpn \| grep 9997` → empty output |
 | **Root Cause** | Splunk was running but had no explicit binding directive for port `9997` |
 
-### 4.3 Technical Findings — Remediation Sequence
+### 1.3 Technical Findings — Remediation Sequence
 
 **Step 1 — Force CLI Binding**
 
@@ -71,7 +71,7 @@ State   Recv-Q  Send-Q  Local Address:Port  Peer Address:Port
 LISTEN  0       128     0.0.0.0:9997         0.0.0.0:*   users:(("splunkd",pid=19022,fd=174))
 ```
 
-### 3.4 Assessment
+### 1.4 Assessment
 
 Repeat PowerShell probe confirmed full success:
 
@@ -86,13 +86,13 @@ TcpTestSucceeded : True ✓
 
 ---
 
-## 5. Phase 3 – Endpoint Telemetry Engineering & Event Log Ingestion
+## 2. Phase 3 – Endpoint Telemetry Engineering & Event Log Ingestion
 
-### 5.1 Test Description
+### 2.1 Test Description
 
 With the network data pipeline established, the **Universal Forwarder** on the Windows host was configured to monitor local directories and subscribe to live Windows Event Log channels.
 
-### 5.2 Observations
+### 2.2 Observations
 
 - Monitoring `C:\Windows\System32` produced **no indexed events** — the directory consists of static binary files (`.exe`, `.dll`, `.sys`) which Splunk's text-stream parser ignores.
 - A dynamic test confirmed the file-monitor engine was functional:
@@ -105,7 +105,7 @@ The forwarder detected the ASCII payload, packaged it, and transmitted it to the
 
 - Configuration was then migrated to **live Windows Event Log subscriptions** for continuous security telemetry.
 
-### 5.3 Technical Findings — Configuration Files
+### 2.3 Technical Findings — Configuration Files
 
 **`outputs.conf` — Transmission Target**
 > `C:\Program Files\SplunkUniversalForwarder\etc\system\local\outputs.conf`
@@ -137,7 +137,7 @@ renderXml = false
 net stop SplunkForwarder && net start SplunkForwarder
 ```
 
-### 5.4 Temporal Synchronisation Troubleshooting
+### 2.4 Temporal Synchronisation Troubleshooting
 
 **Problem:** `index="windows_logs"` returned zero results on initial search.
 
@@ -147,15 +147,15 @@ net stop SplunkForwarder && net start SplunkForwarder
 
 **Permanent Fix:** Synchronise both systems to the same NTP source.
 
-### 5.5 Assessment
+### 2.5 Assessment
 
 > Live Windows Application Event Log data is now flowing continuously into `index=windows_logs` on the Kali SIEM. The telemetry pipeline is fully operational end-to-end.
 
 ---
 
-## 6. Phase 4 – Infrastructure Hardening & Compliance Controls
+## 3. Phase 4 – Infrastructure Hardening & Compliance Controls
 
-### 6.1 Test Description
+### 3.1 Test Description
 
 An intentional Nmap scan of the Kali indexer revealed multiple exposed interfaces, triggering a formal security audit and hardening cycle.
 
@@ -165,7 +165,7 @@ PORT     STATE  SERVICE
 8089/tcp open   unknown
 ```
 
-### 6.2 Observations — Threat Modelling
+### 3.2 Observations — Threat Modelling
 
 | Port | Service | Threat Vector |
 |---|---|---|
@@ -173,7 +173,7 @@ PORT     STATE  SERVICE
 | `8089/tcp` | REST API | HTTPS with **self-signed certs**. Vulnerable to MitM certificate replacement and network-wide brute-force. |
 | `9997/tcp` | S2S Ingestion | Wildcard binding (`0.0.0.0:9997`) accepts unauthenticated data from any source — log-forgery and DoS vectors. |
 
-### 6.3 Technical Findings — Security Controls
+### 3.3 Technical Findings — Security Controls
 
 #### Control A — Host-Based Firewall Segmentation (`ufw`)
 
@@ -212,13 +212,13 @@ maxKBps = 256
 
 > Caps outbound throughput at **256 KB/s**, distributing catch-up data evenly and protecting the daily quota.
 
-### 6.4 Assessment
+### 3.4 Assessment
 
 > All three controls operate in concert: the firewall eliminates unauthorised access; the persistent queue preserves telemetry during outages; the throughput limiter prevents licence violations during recovery. The deployment is now hardened and compliant.
 
 ---
 
-## 7. Final Assessment Summary
+## 4. Final Assessment Summary
 
 ```
 [ Windows Host Endpoint ]                         [ Kali Linux SIEM Indexer ]
@@ -248,7 +248,7 @@ maxKBps = 256
 
 ---
 
-## 8. Industry Relevance
+## 5. Industry Relevance
 
 ### 🔵 Security Operations (SOC Engineering)
 
@@ -268,7 +268,7 @@ maxKBps = 256
 
 ---
 
-## 9. Skills Demonstrated
+## 6. Skills Demonstrated
 
 | Skill Area | Competency |
 |---|---|
@@ -278,7 +278,6 @@ maxKBps = 256
 | **Defensive Edge Hardening** | Designing `ufw` firewall ACLs to restrict service visibility and reduce the attack surface of critical infrastructure |
 | **Log Reliability & DFIR Readiness** | Preserving forensic evidence across network boundaries and normalising clock discrepancies for accurate timeline reconstruction |
 
----
 
 <div align="center">
 
