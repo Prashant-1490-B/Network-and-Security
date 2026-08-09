@@ -9,13 +9,6 @@
 1. [Executive Summary](#1-executive-summary)
 2. [Environment Overview](#2-environment-overview)
 3. [Phase 1 – Virtual Network Topology & Bridged Adapter Optimisation](#3-phase-1--virtual-network-topology--bridged-adapter-optimisation)
-4. [Phase 2 – Ingestion Port Activation & Socket Architecture](#4-phase-2--ingestion-port-activation--socket-architecture)
-5. [Phase 3 – Endpoint Telemetry Engineering & Event Log Ingestion](#5-phase-3--endpoint-telemetry-engineering--event-log-ingestion)
-6. [Phase 4 – Infrastructure Hardening & Compliance Controls](#6-phase-4--infrastructure-hardening--compliance-controls)
-7. [Final Assessment Summary](#7-final-assessment-summary)
-8. [Industry Relevance](#8-industry-relevance)
-9. [Skills Demonstrated](#9-skills-demonstrated)
-
 ---
 
 ## 1. Executive Summary
@@ -71,5 +64,5 @@ sudo dhclient -v eth0
 
 > Transitioning to Bridged Adapter resolved all routing isolation limitations and established full bidirectional reachability between `192.168.1.110` (Windows) and `192.168.1.150` (Kali SIEM). This was the foundational requirement for the entire pipeline.
 
----
+
 
